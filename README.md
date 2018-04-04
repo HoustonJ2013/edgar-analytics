@@ -41,5 +41,10 @@ The log files are red line by line on the fly from the text files, and the space
 Time compolexity is O(n), where n is the number of entries in the log file. The main cost is to read, parse, and update the active user dictionary, which cost on O(1) for each entry. Some overhead is to check the expired users and write out the results. For a typical log from [SEC](https://www.sec.gov/dera/data/edgar-log-file-data-set.html), the average cost for the overhead is << 1 for each entry. 
 
 
-For a large log of ~ 2gb size, the total run time 640s that is 27 micro-seconds for one entry. 
+For a large log of ~ 2gb size, the total run time 640s that is 27 micro-seconds per entry. 
+The computer specs are as follow:
+- Memory 12 GB 
+- Processor Intel i5-2520M 
+- OS: ubuntu 16.04
 ## Summary 
+By using the ordered dictionary and datetime structure, I used an efficient algorithm to process the log and output the user activity information. This code can be easily scaled up by changing the I/O.  
