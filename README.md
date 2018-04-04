@@ -20,23 +20,26 @@ The final version for submission is in src/sessionization.py
 - Use time module to test the code speed and optimized. The final version is 400 times faster than the initial version. 
 
 ### Pesudo code:
+For each line in the log: 
+  + Parse one line of the log
+  + If current time stamp is 1s increment compared to previous, search and return the expried users from the active user dictionary, delete the expired users from active user dictionaries. For efficiency I used user dictionary ordered by last action time to search for expried users. 
+  + Write out info for the expired users 
+  + Add current log information to active users or update the active user information
+When finished reading, write out the info for rest of the active users 
 
-#### For each line in the log: 
-+ Parse one line of the log
-+ If current time stamp is 1s increment compared to previous, search and return the expried users from the active user dictionary, delete the expired users from active user dictionaries. For efficiency I used user dictionary ordered by last action time to search for expried users. 
-+ Write out info for the expired users 
-+ Add current log information to active users or update the active user information
-#### When finished reading, write out the info for rest of the active users 
 
-
-### A class EDGAR was defined to process the log and write the output. 
-Here is how to instantiate the class and parse the input log. 
+A class EDGAR was defined to process the log and write the output. Here is how to instantiate the class and parse the input log. 
 ```
     sess = EDGAR(logfile, inactivity_period, output)
     sess.parse_log()
 ```
 
 ## Time complexity and space complexity: Statistics of the log data 
+### Space complexity
+The log files are red line by line on the fly from the text files, and the space complexity for ordered dictionary is relatively small. The space complexity depends on the definition of inactivity_period, and is close to ~18010 if we define the inactivity period as 7200s (2 hours).
+### Time complexity
+Time compolexity is O(n), where n is the number of entries in the log file. The main cost is to read, parse, and update the active user dictionary, which cost on O(1) for each entry. Some overhead is to check the expired users and write out the results. For a typical log from [SEC](https://www.sec.gov/dera/data/edgar-log-file-data-set.html), the average cost for the overhead is << 1 for each entry. 
 
 
+For a large log of ~ 2gb size, the total run time 640s that is 27 micro-seconds for one entry. 
 ## Summary 
